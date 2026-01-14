@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --background: #f9f9fb;
+  --foreground: #171717;
+  --card-background: #ffffff;
+  --card-foreground: #171717;
+  --border: #e5e7eb;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-background: #1a1a1a;
+  --card-foreground: #ededed;
+  --border: #374151;
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card-background: var(--card-background);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --font-sans: var(--font-roboto);
+ }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+}
+h1, h2, h3, h4, h5, h6, p, a {
+  font-family: 'Roboto', 'Apple', 'BlinkMacSystemFont', 'system-ui', sans-serif;
+}
