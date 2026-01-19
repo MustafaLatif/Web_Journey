@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
-
+ app.use('',(res,req,next)=>{
+    console.log('first')
+    next()
+ })
 app.use(express.json());
 
 // In-memory data (later you’ll use a database)
