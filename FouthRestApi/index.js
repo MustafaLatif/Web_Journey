@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
+
+
  app.use('',(res,req,next)=>{
-    console.log('first')
+    console.log('first');
     next()
  })
 app.use(express.json());
