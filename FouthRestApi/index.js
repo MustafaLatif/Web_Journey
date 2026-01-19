@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+const PORT = 3000;
 
  app.use('',(res,req,next)=>{
     console.log('first');
@@ -57,5 +57,5 @@ app.delete('/api/courses/:id', (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+  console.log(`Server running on http://localhost:${PORT}`);
 });
