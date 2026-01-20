@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Book</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    form { max-width: 400px; margin: 20px auto; }
+    label { display: block; margin: 10px 0; }
+    input, button { width: 100%; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Add New Book</h1>
+  <form id="bookForm">
+    <label>Title:
+      <input type="text" name="title" required />
+    </label>
+    <label>Author:
+      <input type="text" name="author" required />
+    </label>
+    <label>Price:
+      <input type="number" name="price" step="0.01" required />
+    </label>
+    <button type="submit">Add Book</button>
+  </form>
+  <br>
+  <a href="/">← Back to Books</a>
+
+  <script>
+    const form = document.getElementById("bookForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      const res = await fetch("/books", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Book added: " + result.title);
+        form.reset();
+        location.href = "/";
+      } else {
+        alert("Error: " + result.error);
+      }
+    });
+  </script>
+</body>
+</html>

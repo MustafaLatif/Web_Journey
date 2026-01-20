@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .book { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    .search { margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h1>📚 Book Store</h1>
+
+  <div class="search">
+    <form action="/" method="GET">
+      <input type="text" name="q" value="<%= query %>" placeholder="Search by title or author..." />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <a href="/create">➕ Add New Book</a>
+  <hr>
+
+  <% if (books.length === 0) { %>
+    <p>No books found.</p>
+  <% } else { %>
+    <% books.forEach(book => { %>
+      <div class="book">
+        <h3><%= book.title %></h3>
+        <p>by <%= book.author %></p>
+        <p>Price: $<%= book.price %></p>
+        <button onclick="editBook(<%= book.id %>)">✏️ Edit</button>
+        <button onclick="deleteBook(<%= book.id %>)">🗑️ Delete</button>
+      </div>
+    <% }); %>
+  <% } %>
+
+  <script>
+    function editBook(id) {
+      alert("In a real app, you would go to /edit/" + id or use a form");
+    }
+
+    function deleteBook(id) {
+      if (confirm("Delete this book?")) {
+        fetch("/books/" + id, { method: "DELETE" })
+          .then(res => res.json())
+          .then(data => {
+            alert("Deleted: " + data.book.title);
+            location.reload();
+          })
+          .catch(err => console.error("Error:", err));
+      }
+    }
+  </script>
+</body>
+</html>
