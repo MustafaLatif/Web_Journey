@@ -44,7 +44,7 @@ app.post('/notes', async (req, res) => {
 });
 
 // Connect to MongoDB and start server
-mongoose.connect('mongodb://127.0.0.1:27017/notesdb')
+mongoose.connect('mongodb://mongodb_url/notesdb')
   .then(() => {
       console.log('MongoDB connected!');
       app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
