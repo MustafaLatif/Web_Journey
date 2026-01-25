@@ -15,7 +15,7 @@ const {schema,model}= userSchema({
     },
     profileUrl:{
         type:String,
-        default:"/images/download.png",
+        // default:"/images/download.png",
     },
     role:{
         enum:["ADMIN","USER"],
