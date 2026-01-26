@@ -1,54 +1,58 @@
-const mongoose=require('mongoose');
-const {schema,model}= userSchema({
+const {createHmac, randomBytes}= require("node:crypto")
+const mongoose= require('mongoose');
+const {Schema,model}= require('mongoose');
+// const { Profiler } = require('react');
+const userSchema = userSchema({
+
     fullName:{
         type: String,
         required: true,
     },
     email:{
-        type:String,
-        required:true,
-        unique:true,
+        type: String,
+        required: true,
+        unique: true,
     },
     password:{
         type:String,
-        required:true,
-    },
-    profileUrl:{
-        type:String,
-        // default:"/images/download.png",
+        required: true,
     },
     role:{
-        enum:["ADMIN","USER"],
-        default:"USER",
         type:String,
+        enum:["USER","ADMIN"],
+    },
+    ProfileUrl:{
+        default:"/images/download.png",
     },
     salt:{
         type:String,
     },
 },
-    {timestamps:true,}
+    {timestamps:true},
 );
-userSchema.pre("save",function(next){
+
+userSchema.pre("save", function(next){
     const user=this;
-    if(user.isModified("password")) return;
-    const salt =randomBytes(29).toString("hex");
-    const hashedpassword=createHmac("sha256",salt)
+    if(user.isModified("password"))return;
+    const salt=randomBytes(16).toString("hex");
+    const hashedPassword=createHmac("sha256",salt)
     .update(user.password)
     .digest("hex")
-    this.password=hashedpassword;
-    next()
+    this.salt=salt;
+    this.password=hashedPassword;
+    next();
 });
-userSchema.static('matchpassword',async function(email,password){
-    const user=await this.findone({email});
-    if(!user) throw new Error("User not found")
-        if(!user) return false;
-    const salt= user.salt;
-    const hashedpassword=user.password;
-    const userProvidedHash =createHmac("sha256",salt)
+userSchema.static('matchPassword',async function(email,password){
+    const user =await  this.findone({email});
+    if(!user) throw new Error("User not found!");
+    if(!user) return false;
+    const salt=user.salt;
+    const hashedPassword=user.password;
+    const userProvidedHash= createHmac("sha256",salt)
     .update(user.password)
-    .digest("hex")
-    if(hashedpassword!==userProvidedHash) throw new Error('incorrect password')
-    return{...user._doc,password:undefined,salt:undefined}
+    .digest("hex");
+    if(hashedPassword != userProvidedHash) throw new Error('incorrect password')
+    return {...user._doc,password:undefined, salt: undefined}
 })
-const User=model("User",userSchema);
-module.exports = User;
+ const User=model("User",userSchema);
+ module.exports=User;
