@@ -12,9 +12,9 @@ router.get("/signup",(req,res)=>{
 
 router.post('/signin',async(req,res)=>{
     const {email,password} =req.body;
-    const isMatched= user.matchPassword(email,password)
-    console.log('user',user)
-        return res.redirect('/')
+    console.log(email,password);
+    const token = await user.matchPasswordAndGenerateToken(email,password)
+         return res.redirect('/')    
 
 })
 
@@ -27,4 +27,4 @@ router.post('/signup',async (req,res)=>{
     });
     return res.redirect('/')
 })
-module.exports=router;
+module.exports=router;  
